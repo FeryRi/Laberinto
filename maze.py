@@ -3,7 +3,7 @@ from freegames import floor, vector
 
 path = Turtle(visible=False) #tortuga invisible
 aim = vector(5, 0)
-person = vector(180, 20) #punto en donde inicia el personaje
+person = vector(180, 20)
 
 #matriz que le da forma al laberinto
 tiles=[
@@ -81,25 +81,54 @@ def maze():
             y = 180 - (index // 20) * 20
             square(x, y)
 
+
 #función para el movimiento del objeto
 def move():
-    clear()
+  clear()
+
+  if valid(person + aim):
+      person.move(aim)
+
+  up()
+  goto(person.x + 10, person.y + 10)
+  dot(20, 'blue')
+  ontimer(move, 100)
+
+  if person == vector(-200,-140):
+      print("¡Has llegado al destino!")
+      bye()
     
-    #para que objeto se mueva si no choca con muro
-    if valid(person + aim):
-        person.move(aim)
-
-up()
-goto(person.x + 10, person.y + 10)
-dot(20, 'blue') #tamaño y color de objeto/punto
-ontimer(move, 100) #para la velocidad del movimiento media
-
 #función para cambiar la dirección del objeto si es válido
 def change(x, y):
     if valid(person + vector(x, y)):
         aim.x = x
         aim.y = y
+# Función para verificar la condición de pérdida
+def check_loss():
+    if (
+        person == vector(160, 100)
+        or person == vector(40, 20)
+        or person == vector(-80, -40)
+        or person == vector(-180, -60)
+    ):
+        clear()
+        goto(0, 0)
+        write("Game Over", align="center", font=("Arial", 24, "normal"))
+        update()
+          # Espera 2 segundos y reinicia el juego
 
+    ontimer(check_loss, 100)
+
+# Función para reiniciar el juego
+
+# Función para reiniciar el juego cuando se presiona la tecla "r"
+def restart():
+    clear()
+    global person, aim
+    person = vector(180, 20)
+    aim = vector(5, 0)
+    maze()
+    move()
 
 setup(420, 340, 420, 340) #configura la ventana del juego
 hideturtle()
@@ -109,6 +138,10 @@ onkey(lambda: change(5, 0), 'Right')
 onkey(lambda: change(-5, 0), 'Left')
 onkey(lambda: change(0, 5), 'Up')
 onkey(lambda: change(0, -5), 'Down')
+onkey(restart, "r")  # Cuando se presione la tecla "r" se reiniciará el juego
 maze()
 move()
+check_loss()  # Llamar a la función para verificar la pérdida
 done()
+
+#Salidas falsas (160,100)(40,20)(-80-40)(-180,-60)
