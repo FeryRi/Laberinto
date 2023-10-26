@@ -83,6 +83,8 @@ def maze():
 
 #función para el movimiento del objeto
 def move():
+    clear()
+    
     #para que objeto se mueva si no choca con muro
     if valid(person + aim):
         person.move(aim)
