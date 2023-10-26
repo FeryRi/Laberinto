@@ -32,7 +32,6 @@ tiles=[
 #función que se encarga de dibujar el rectángulo del tablero
 #toma como parámetro la ruta en (x,y)
 def square(x, y):
-    "Draw square using path at (x, y)."
     path.up() #que no pinte
     path.goto(x, y) #manda a (x,y)
     path.down() #permite que pinte
@@ -47,7 +46,6 @@ def square(x, y):
 
 #función para el retorno de puntos desplazados en el rectángulo
 def offset(point):
-    "Return offset of point in tiles."
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -55,7 +53,6 @@ def offset(point):
 
 #función para validar el punto en el tablero 
 def valid(point):
-    "Return True if point is valid in tiles."
     index = offset(point)
 
     #condicional para hacer la validación
@@ -71,7 +68,6 @@ def valid(point):
 
 #función para dibujar el laberinto usando el camino
 def maze():
-    "Draw world using path."
     bgcolor('black')
     path.color('pink')
 
@@ -87,7 +83,6 @@ def maze():
 
 #función para el movimiento del objeto
 def move():
-    "Move pacman and all ghosts."
     #para que objeto se mueva si no choca con muro
     if valid(person + aim):
         person.move(aim)
@@ -99,11 +94,9 @@ def move():
 
 #función para cambiar la dirección del objeto si es válido
 def change(x, y):
-    "Change pacman aim if valid."
     if valid(person + vector(x, y)):
         aim.x = x
         aim.y = y
-
 
 setup(420, 340, 420, 340) #configura la ventana del juego
 hideturtle()
