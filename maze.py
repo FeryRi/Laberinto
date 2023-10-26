@@ -1,5 +1,7 @@
 from turtle import *
 from freegames import floor, vector
+import random
+
 
 path = Turtle(visible=False) #tortuga invisible
 aim = vector(5, 0)
@@ -81,6 +83,20 @@ def maze():
             y = 180 - (index // 20) * 20
             square(x, y)
 
+def place_bolita():
+    while True:
+        x = random.randint(0,19)
+        y = random.randint(0,19)
+        index = x + y *20
+        if tiles[index] == 1:
+            break
+    return vector((x - 9) * 20, (9 - y) * 20)
+
+bolita = place_bolita()
+
+def touch_bolita():
+    return abs(person.x - bolita.x) < 10 and abs(person.y - bolita.y) < 10
+
 #función para el movimiento del objeto
 def move():
     clear()
@@ -89,16 +105,22 @@ def move():
     if valid(person + aim):
         person.move(aim)
 
-    up()
-    goto(person.x + 10, person.y + 10)
-    dot(20, 'blue') #tamaño y color de objeto/punto
-    ontimer(move, 100) #para la velocidad del movimiento media
+if touch_bolita():
+    clear()
+    goto(0, 0)
+    write("Juego terminado", align="center", font=("Arial", 24, "normal"))
+
+up()
+goto(person.x + 10, person.y + 10)
+dot(20, 'blue') #tamaño y color de objeto/punto
+ontimer(move, 100) #para la velocidad del movimiento media
 
 #función para cambiar la dirección del objeto si es válido
 def change(x, y):
     if valid(person + vector(x, y)):
         aim.x = x
         aim.y = y
+
 
 setup(420, 340, 420, 340) #configura la ventana del juego
 hideturtle()
@@ -110,5 +132,6 @@ onkey(lambda: change(0, 5), 'Up')
 onkey(lambda: change(0, -5), 'Down')
 maze()
 move()
+bolita.goto(bolita.x, bolita.y)
+dot(20, 'green')
 done()
-
