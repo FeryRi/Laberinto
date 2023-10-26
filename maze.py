@@ -5,7 +5,7 @@ import random
 
 path = Turtle(visible=False) #tortuga invisible
 aim = vector(5, 0)
-person = vector(180, 20)
+person = vector(180, 20) #punto en donde inicia el personaje
 
 #matriz que le da forma al laberinto
 tiles=[
